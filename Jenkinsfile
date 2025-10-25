@@ -2,64 +2,64 @@ pipeline {
 agent any
 
 tools {
-nodejs 'NodeJS'
+nodejs 'NodeJS' // Make sure 'Node20' matches the name in your Jenkins NodeJS configuration
 }
 
 parameters {
-string(name: 'BRANCH_NAME', defaultValue: 'main')
-string(name: 'BUILD_ENV', defaultValue: 'dev')
-string(name: 'STUDENT_NAME', defaultValue: 'your name') //provide your name here, no
-name, no marks
-
+string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch to build')
+string(name: 'BUILD_ENV', defaultValue: 'dev', description: 'Environment for build')
 }
 
 environment {
-APP_VERSION = "1.0.0"
+NEW_VERSION = "1.3.0"
 }
 
 stages {
-stage('Install Dependencies') {
+stage('Checkout') {
 steps {
-echo "Installing Node.js dependencies..."
-bat "npm install"
+echo "Checking out branch: ${params.BRANCH_NAME}"
+checkout scm
 }
+}
+
+stage('Install Dependencies') {
+  steps {
+    echo 'Installing project dependencies...'
+    bat 'npm ci'    // use 'bat' for Windows agents; if Linux, replace with 'sh'
+  }
+}
+
+stage('Run Tests') {
+  steps {
+    echo 'Running Jest test cases...'
+    bat 'npm test'
+  }
 }
 
 stage('Build') {
-steps {
-echo 'Building Calculator App v${APP_VERSION} on branch
-${params.BRANCH_NAME}';
-}
-}
-
-stage('Unit Test') {
-when {
-expression { return params.BUILD_ENV == 'dev' }
-}
-
-steps {
-echo 'Running unit tests with Jest...'
-bat "npm test"
-}
+  steps {
+    echo "Building version ${env.NEW_VERSION} on branch ${params.BRANCH_NAME}"
+  }
 }
 
 stage('Deploy') {
-steps {
-echo 'Simulating deployment of Node.js Calculator App...'
+  steps {
+    echo "Deploying application to ${params.BUILD_ENV} environment..."
+  }
 }
-}
+
+
 }
 
 post {
 always {
 echo 'Cleaning up workspace...'
-// deleteDir()
 }
 success {
-echo 'Pipeline executed successfully.'
+echo '✅ Pipeline executed successfully.'
 }
 failure {
-echo 'Pipeline failed.'
+echo '❌ Pipeline failed.'
 }
 }
 }
