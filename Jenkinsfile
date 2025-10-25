@@ -11,7 +11,7 @@ string(name: 'BUILD_ENV', defaultValue: 'dev', description: 'Environment for bui
 }
 
 environment {
-NEW_VERSION = "1.3.0"
+NEW_VERSION = "1.1.0"
 }
 
 stages {
