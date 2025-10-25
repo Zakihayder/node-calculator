@@ -23,8 +23,11 @@ function divide(a, b) {
     }
     return a / b;
 }
-function modulus(a, b){
-    return a % b;
+function modulus(a, b) {
+if (b === 0) {
+throw new Error('Cannot divide by zero');
+}
+return a % b;
 }
 
 // Export functions for testing
