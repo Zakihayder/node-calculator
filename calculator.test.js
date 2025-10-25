@@ -24,4 +24,10 @@ describe('Calculator', () => {
     test('divide() should throw error when dividing by zero', () => {
         expect(() => divide(5, 0)).toThrow('Cannot divide by zero');
     });
+
+     test('modulus() should return modulus of two numbers', () => {
+        expect(modulus(7, 3)).toBe(1);
+        expect(modulus(10, 5)).toBe(0);
+    });
+
 });
