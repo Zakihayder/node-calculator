@@ -1,4 +1,4 @@
-const { add, subtract, multiply, divide } = require('./calculator');
+const { add, subtract, multiply, divide, modulus } = require('./calculator');
 
 describe('Calculator', () => {
     test('add() should return sum of two numbers', () => {
@@ -29,5 +29,7 @@ describe('Calculator', () => {
         expect(modulus(7, 3)).toBe(1);
         expect(modulus(10, 5)).toBe(0);
     });
+
+
 
 });
